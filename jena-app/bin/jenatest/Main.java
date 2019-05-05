@@ -120,31 +120,27 @@ public class Main {
 		hasYear.setDomain(journal);
 		hasYear.setRange(XSD.gYear);
 		
-		/* THIS HAS A NULLPOINTER EXCEPTION
-		// Topic of conferences and journals
-		myOntology.read("http://purl.org/dc/terms/subject");
-		DatatypeProperty hasSubject = myOntology.getDatatypeProperty("http://purl.org/dc/terms/subject");
-		hasSubject.setDomain(conference);
-		hasSubject.setDomain(journal);
-		hasSubject.setRange(XSD.xstring);
-		//*/
-		/* THIS HAS A NULLPOINTER EXCEPTION
-		// Name of conferences and journals
-		myOntology.read("http://linguistics-ontology.org/gold/hypernym");
-		DatatypeProperty hasHypernym = myOntology.getDatatypeProperty("http://linguistics-ontology.org/gold/hypernym");
-		hasHypernym.setDomain(conference);
-		hasHypernym.setDomain(journal);
-		hasHypernym.setRange(XSD.xstring);
-		*/
+		//Topic of conferences and journals
+		DatatypeProperty hasTopic = myOntology.createDatatypeProperty(name + "hasTopic");
+		hasTopic.setDomain(conference);
+		hasTopic.setDomain(journal);
+		hasTopic.setRange(XSD.xstring);
+		
+		// Name of conferences, journals and organizations
+		DatatypeProperty hasName = myOntology.createDatatypeProperty(name + "hasName");
+		hasName.setDomain(conference);
+		hasName.setDomain(journal);
+		hasName.setDomain(organization);
+		hasName.setRange(XSD.xstring);
 		
 		// AUTHORS ///////////////////////////////////////////////////////////////////////////////////////////
 		
 		// Name
 		myOntology.read("http://dbpedia.org/ontology/birthName");
-		DatatypeProperty hasName = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/birthName");
-		hasName.setDomain(author);
-		hasName.setDomain(reviewer);
-		hasName.setRange(XSD.xstring);
+		DatatypeProperty hasBirthName = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/birthName");
+		hasBirthName.setDomain(author);
+		hasBirthName.setDomain(reviewer);
+		hasBirthName.setRange(XSD.xstring);
 		
 		// Gender
 		myOntology.read("http://dbpedia.org/ontology/sex");
