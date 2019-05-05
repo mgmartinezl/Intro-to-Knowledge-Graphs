@@ -30,11 +30,11 @@ public class Main {
 		myOntology.read("http://dbpedia.org/ontology/Article");
 		OntClass paper = myOntology.getOntClass("http://dbpedia.org/ontology/Article");
 		
-		myOntology.read("http://dbpedia.org/ontology/Journal");
-		OntClass journal = myOntology.getOntClass("http://dbpedia.org/ontology/Journal");
+		myOntology.read("http://dbpedia.org/ontology/AcademicJournal");
+		OntClass journal = myOntology.getOntClass("http://dbpedia.org/ontology/AcademicJournal");
 		
-		myOntology.read("http://dbpedia.org/page/Academic_conference");
-		OntClass conference = myOntology.getOntClass("http://dbpedia.org/page/Academic_conference");
+		myOntology.read("http://dbpedia.org/ontology/AcademicConference");
+		OntClass conference = myOntology.getOntClass("http://dbpedia.org/ontology/AcademicConference");
 		
 		myOntology.read("http://dbpedia.org/ontology/Company");
 		OntClass organization = myOntology.getOntClass("http://dbpedia.org/ontology/Company");
@@ -57,7 +57,6 @@ public class Main {
 		paper.addSubClass(fullPaper);
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
-		/*
 		
 		//Create properties and their domain/range
 		
@@ -82,20 +81,20 @@ public class Main {
 		myOntology.read("http://dbpedia.org/ontology/abstract");
 		DatatypeProperty hasAbstract = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/abstract");
 		hasAbstract.setDomain(paper);
-		hasAbstract.setDomain(conference);
+		//hasAbstract.setDomain(conference); // Not available for conferences
 		hasAbstract.setRange(XSD.xstring);
-		
+		 
 		// Month
 		DatatypeProperty hasMonth = myOntology.createDatatypeProperty(name + "hasMonth");
 		hasMonth.setDomain(conference);
 		hasMonth.setRange(XSD.gMonth);
-		
-		// City
+		/*
+		// City THIS HAS A NULLPOINTER EXCEPTION
 		myOntology.read("http://dbpedia.org/ontology/Place");
 		DatatypeProperty hasCity = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/Place");
 		hasCity.setDomain(conference);
 		hasCity.setRange(XSD.xstring);
-		
+		*/
 		// Edition
 		DatatypeProperty hasEdition = myOntology.createDatatypeProperty(name + "hasEdition");
 		hasEdition.setDomain(conference);
@@ -112,20 +111,22 @@ public class Main {
 		hasYear.setDomain(journal);
 		hasYear.setRange(XSD.gYear);
 		
+		/* THIS HAS A NULLPOINTER EXCEPTION
 		// Topic of conferences and journals
 		myOntology.read("http://purl.org/dc/terms/subject");
 		DatatypeProperty hasSubject = myOntology.getDatatypeProperty("http://purl.org/dc/terms/subject");
 		hasSubject.setDomain(conference);
 		hasSubject.setDomain(journal);
 		hasSubject.setRange(XSD.xstring);
-				
+		*/
+		/* THIS HAS A NULLPOINTER EXCEPTION
 		// Name of conferences and journals
 		myOntology.read("http://linguistics-ontology.org/gold/hypernym");
 		DatatypeProperty hasHypernym = myOntology.getDatatypeProperty("http://linguistics-ontology.org/gold/hypernym");
 		hasHypernym.setDomain(conference);
 		hasHypernym.setDomain(journal);
 		hasHypernym.setRange(XSD.xstring);
-		
+		*/
 		
 		// AUTHORS ///////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -160,7 +161,7 @@ public class Main {
 		
 		// Create individuals
 		//Individual John = author.createIndividual(name + "John Deere");
-		*/
+		
 		
 		myOntology.write(System.out);
 	
