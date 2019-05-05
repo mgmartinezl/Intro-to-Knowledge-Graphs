@@ -1,5 +1,9 @@
 package SDM.Lab3;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
@@ -10,7 +14,7 @@ import org.apache.jena.vocabulary.*;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		// Create an empty ontology model
 		OntModel myOntology = ModelFactory.createOntologyModel();
@@ -116,14 +120,14 @@ public class Main {
 		hasYear.setDomain(journal);
 		hasYear.setRange(XSD.gYear);
 		
-		// THIS HAS A NULLPOINTER EXCEPTION
+		/* THIS HAS A NULLPOINTER EXCEPTION
 		// Topic of conferences and journals
 		myOntology.read("http://purl.org/dc/terms/subject");
 		DatatypeProperty hasSubject = myOntology.getDatatypeProperty("http://purl.org/dc/terms/subject");
 		hasSubject.setDomain(conference);
 		hasSubject.setDomain(journal);
 		hasSubject.setRange(XSD.xstring);
-		
+		//*/
 		/* THIS HAS A NULLPOINTER EXCEPTION
 		// Name of conferences and journals
 		myOntology.read("http://linguistics-ontology.org/gold/hypernym");
@@ -168,7 +172,17 @@ public class Main {
 		// Create individuals
 		//Individual John = author.createIndividual(name + "John Deere");
 		
-		myOntology.write(System.out);
+		
+		
+		
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/SDM/Lab3/ontology.owl"));	    
+			myOntology.write(writer);
+			System.out.println("Listo!");
+		}
+		catch(IOException e) {
+			System.out.println(e);
+		}
 	
 		
 	}
