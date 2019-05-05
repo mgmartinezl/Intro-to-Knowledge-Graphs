@@ -1,4 +1,4 @@
-package jenatest;
+package SDM.Lab3;
 
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
@@ -93,13 +93,13 @@ public class Main {
 		DatatypeProperty hasMonth = myOntology.createDatatypeProperty(name + "hasMonth");
 		hasMonth.setDomain(conference);
 		hasMonth.setRange(XSD.gMonth);
-		/*
-		// City THIS HAS A NULLPOINTER EXCEPTION
-		myOntology.read("http://dbpedia.org/ontology/Place");
-		DatatypeProperty hasCity = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/Place");
+		
+		// City 
+		myOntology.read("http://dbpedia.org/ontology/cityLink");
+		DatatypeProperty hasCity = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/cityLink");
 		hasCity.setDomain(conference);
 		hasCity.setRange(XSD.xstring);
-		*/
+		
 		// Edition
 		DatatypeProperty hasEdition = myOntology.createDatatypeProperty(name + "hasEdition");
 		hasEdition.setDomain(conference);
@@ -116,14 +116,14 @@ public class Main {
 		hasYear.setDomain(journal);
 		hasYear.setRange(XSD.gYear);
 		
-		/* THIS HAS A NULLPOINTER EXCEPTION
+		// THIS HAS A NULLPOINTER EXCEPTION
 		// Topic of conferences and journals
 		myOntology.read("http://purl.org/dc/terms/subject");
 		DatatypeProperty hasSubject = myOntology.getDatatypeProperty("http://purl.org/dc/terms/subject");
 		hasSubject.setDomain(conference);
 		hasSubject.setDomain(journal);
 		hasSubject.setRange(XSD.xstring);
-		*/
+		
 		/* THIS HAS A NULLPOINTER EXCEPTION
 		// Name of conferences and journals
 		myOntology.read("http://linguistics-ontology.org/gold/hypernym");
@@ -167,7 +167,6 @@ public class Main {
 		
 		// Create individuals
 		//Individual John = author.createIndividual(name + "John Deere");
-		
 		
 		myOntology.write(System.out);
 	
