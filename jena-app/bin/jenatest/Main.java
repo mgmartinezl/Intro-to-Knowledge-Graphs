@@ -206,6 +206,9 @@ public class Main {
 		CardinalityRestriction correspondingRestriction = myOntology.createCardinalityRestriction(null, correspondingAuthor, 1);
 		correspondingRestriction.addDisjointWith(coAuthors);
 		
+		// If review exists it must have a reviewer and paper
+		myOntology.createCardinalityRestriction(null, hasReviewer, 1);
+		myOntology.createCardinalityRestriction(null, ofPaper, 1);
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		//INSTANCES
