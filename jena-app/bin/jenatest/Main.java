@@ -46,10 +46,15 @@ public class Main {
 		OntClass demoPaper = myOntology.createClass(name + "DemoPaper");
 		OntClass surveyPaper = myOntology.createClass(name + "SurveyPaper");
 		OntClass fullPaper = myOntology.createClass(name + "FullPaper");
+		OntClass databaseConference = myOntology.createClass(name + "DatabaseConference");
+		OntClass openAccessJournal = myOntology.createClass(name + "OpenAccessJournal");
 		
 		// And now let's define some constraints
 		person.addSubClass(author);
-		person.addSubClass(reviewer);
+		author.addSubClass(reviewer);
+		
+		conference.addSubClass(databaseConference);
+		journal.addSubClass(openAccessJournal);
 		
 		paper.addSubClass(shortPaper);
 		paper.addSubClass(demoPaper);
@@ -142,6 +147,7 @@ public class Main {
 		DatatypeProperty hasGender = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/sex");
 		hasGender.setDomain(author);
 		hasGender.setDomain(reviewer);
+		hasGender.setRange(XSD.xstring);
 		
 		
 		
