@@ -4,11 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.apache.jena.ontology.DatatypeProperty;
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.Ontology;
+import org.apache.jena.ontology.DatatypeProperty;
+import org.apache.jena.ontology.ObjectProperty;
+import org.apache.jena.ontology.CardinalityRestriction;
+import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
 
@@ -16,13 +18,19 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//ONTOLOGY
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		// Create an empty ontology model
 		OntModel myOntology = ModelFactory.createOntologyModel();
 		String name = new String("http://www.sdmlab3.com/my_ontology#");
 		String URI = new String("http://www.sdmlab3.com/my_ontology");
 		Ontology onto = myOntology.createOntology(URI);
 
-		//Let's create the classes		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//CLASSES AND SUBCLASSES
+		///////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
 		//We will import some classes from DBPedia
 		myOntology.read("http://dbpedia.org/ontology/Person");
@@ -53,7 +61,7 @@ public class Main {
 		OntClass databaseConference = myOntology.createClass(name + "DatabaseConference");
 		OntClass openAccessJournal = myOntology.createClass(name + "OpenAccessJournal");
 		
-		// And now let's define some constraints
+		// And now let's define subclasses
 		person.addSubClass(author);
 		author.addSubClass(reviewer);
 		
@@ -66,16 +74,10 @@ public class Main {
 		paper.addSubClass(fullPaper);
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//DATA PROPERTIES
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		//Create properties and their domain/range
-		
-		// CONFERENCES, JOURNALS AND PAPERS ///////////////////////////////////////////////////////////////////
-		
-		// Paper citations
-		DatatypeProperty isCitedBy = myOntology.createDatatypeProperty(name + "isCitedBy");
-		isCitedBy.setDomain(paper);
-		isCitedBy.setRange(paper);
-		
+		// PAPERS, CONFERENCES AND JOURNALS ///////////////////////////////////////////////////////////////////
 		// Paper keywords
 		DatatypeProperty hasKeywords = myOntology.createDatatypeProperty(name + "hasKeywords");
 		hasKeywords.setDomain(paper);
@@ -133,8 +135,7 @@ public class Main {
 		hasName.setDomain(organization);
 		hasName.setRange(XSD.xstring);
 		
-		// AUTHORS ///////////////////////////////////////////////////////////////////////////////////////////
-		
+		// AUTHORS ////////////////////////////////////////////////////////////////////////////////////////////
 		// Name
 		myOntology.read("http://dbpedia.org/ontology/birthName");
 		DatatypeProperty hasBirthName = myOntology.getDatatypeProperty("http://dbpedia.org/ontology/birthName");
@@ -150,9 +151,7 @@ public class Main {
 		hasGender.setRange(XSD.xstring);
 		
 		
-		
-		// REVIEWS //////////////////////////////////////////////////////////////////////////////////////////
-		
+		// REVIEWS ////////////////////////////////////////////////////////////////////////////////////////////
 		// Decision of reviews
 		DatatypeProperty hasDecision = myOntology.createDatatypeProperty(name + "hasDecision");
 		hasDecision.setDomain(review);
@@ -162,14 +161,62 @@ public class Main {
 		DatatypeProperty hasScore = myOntology.createDatatypeProperty(name + "hasScore");
 		hasScore.setDomain(review);
 		hasScore.setRange(XSD.integer);
-	
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//OBJECT PROPERTIES
+		///////////////////////////////////////////////////////////////////////////////////////////////////////	
+		
+		// Paper citations
+		ObjectProperty isCitedBy = myOntology.createObjectProperty(name + "isCitedBy");
+		isCitedBy.setDomain(paper);
+		isCitedBy.setRange(paper);
+		
+		// Paper co-authors
+		ObjectProperty coAuthors = myOntology.createObjectProperty(name + "hasCoAuthors");
+		coAuthors.setDomain(paper);
+		coAuthors.setRange(author);
+		
+		// Paper corresponding author
+		ObjectProperty correspondingAuthor = myOntology.createObjectProperty(name + "hasCorrespondingAuthor");
+		correspondingAuthor.setDomain(paper);
+		correspondingAuthor.setRange(author);
+		
+		// Papers in a conference or journal
+		ObjectProperty hasPapers = myOntology.createObjectProperty(name + "hasPapers");
+		hasPapers.setDomain(conference);
+		hasPapers.setDomain(journal);
+		hasPapers.setRange(paper);
+		
+		// Review author
+		ObjectProperty hasReviewer = myOntology.createObjectProperty(name + "hasReviewer");
+		hasReviewer.setDomain(review);
+		hasReviewer.setRange(reviewer);
+		
+		// Review paper
+		ObjectProperty ofPaper = myOntology.createObjectProperty(name + "ofPaper");
+		ofPaper.setDomain(review);
+		ofPaper.setRange(paper);
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//CREATE RESTRICTIONS
+		///////////////////////////////////////////////////////////////////////////////////////////////////////	
+		
+		// Only one corresponding author and is disjoint from co-authors
+		CardinalityRestriction correspondingRestriction = myOntology.createCardinalityRestriction(null, correspondingAuthor, 1);
+		correspondingRestriction.addDisjointWith(coAuthors);
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//INSTANCES
+		///////////////////////////////////////////////////////////////////////////////////////////////////////	
 		
 		// Create individuals
 		//Individual John = author.createIndividual(name + "John Deere");
 		
-		
-		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		//EXPORT FILE
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/SDM/Lab3/ontology.owl"));	    
@@ -179,7 +226,6 @@ public class Main {
 		catch(IOException e) {
 			System.out.println(e);
 		}
-	
 		
 	}
 	
