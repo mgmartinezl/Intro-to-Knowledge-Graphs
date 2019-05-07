@@ -17,10 +17,10 @@ import org.apache.jena.ontology.CardinalityRestriction;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
+import virtuoso.jena.driver.VirtGraph;
+import virtuoso.jena.driver.VirtModel;
 
 public class Main {
-
-	
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -36,8 +36,15 @@ public class Main {
 		createTBOX(myOntology, name);
 		createABOX(myOntology, name, path);
 		
+		//Connect to virtuoso
+		VirtGraph virtGraph = new VirtGraph("http://localhost:8890/researchpaper", "jdbc:virtuoso://10.4.41.158:1111", "dba", "dba");
+        virtGraph.clear();
+        VirtModel virtModel = new VirtModel(virtGraph);
+
+        virtModel.add(myOntology.getBaseModel());
+		
 		// Export to file
-		exportOntology(myOntology, path);
+		//exportOntology(myOntology, path);
 	}
 	
 	public static void createTBOX(OntModel myOntology, String name) {
@@ -521,6 +528,7 @@ public class Main {
 	
 	public static void exportOntology(OntModel myOntology, String path) throws IOException{
 		System.out.println("Writing TBOX+ABOX");
+		System.gc();
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(path+"myOntology.owl"));	    
 			myOntology.write(writer);
