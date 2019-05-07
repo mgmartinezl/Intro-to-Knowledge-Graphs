@@ -368,7 +368,7 @@ public class Main {
 			br.readLine();
 			
 			while ((line = br.readLine()) != null) {
-				String[] authorshipData = line.split(",");
+				String[] authorshipData = line.split("\t");
 				
 				// Create individual
 	            Individual paper = myOntology.getIndividual(name + "Paper_" + authorshipData[0]);
@@ -428,7 +428,7 @@ public class Main {
 			//AUTHOR IN ORGANIZATION
 			///////////////////////////////////////////////////////////////////////////////////////////////////////
 			
-			br = new BufferedReader(new FileReader(path+"data/contains_relation.txt"));
+			br = new BufferedReader(new FileReader(path+"data/host_relation.txt"));
 			ObjectProperty isInOrganization = myOntology.getObjectProperty(name + "isInOrganization");
 			br.readLine();
 			
@@ -448,7 +448,7 @@ public class Main {
 			//PAPER IN CONFERENCE
 			///////////////////////////////////////////////////////////////////////////////////////////////////////
 			
-			br = new BufferedReader(new FileReader(path+"data/contains_relation.txt"));
+			br = new BufferedReader(new FileReader(path+"data/includes_relation.txt"));
 			ObjectProperty hasPapers = myOntology.getObjectProperty(name + "hasPapers");
 			br.readLine();
 			
@@ -488,14 +488,13 @@ public class Main {
 			//REVIEWS
 			///////////////////////////////////////////////////////////////////////////////////////////////////////
 			
-			br = new BufferedReader(new FileReader(path+"data/reviews_relation.txt.txt"));
+			br = new BufferedReader(new FileReader(path+"data/reviews_relation.txt"));
 			OntClass classReview = myOntology.getOntClass(name + "Review");
 			OntClass classReviewer = myOntology.getOntClass(name + "Reviewer");
 			ObjectProperty hasReviewer = myOntology.getObjectProperty(name + "hasReviewer");
 			ObjectProperty ofPaper = myOntology.getObjectProperty(name + "ofPaper");
 			count=0;
 			br.readLine();
-			
 			
 			while ((line = br.readLine()) != null) {
 				String[] reviewData = line.split(",");
@@ -521,6 +520,7 @@ public class Main {
 	}
 	
 	public static void exportOntology(OntModel myOntology, String path) throws IOException{
+		System.out.println("Writing TBOX+ABOX");
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(path+"myOntology.owl"));	    
 			myOntology.write(writer);
