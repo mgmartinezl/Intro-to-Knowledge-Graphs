@@ -1,0 +1,26 @@
+conferenceID,conferenceName
+50001,Conference #50001
+50002,Conference #50002
+50003,Conference #50003
+50004,Conference #50004
+50005,Conference #50005
+50006,Conference #50006
+50007,Conference #50007
+50008,Conference #50008
+50009,Conference #50009
+50010,Conference #50010
+50011,Conference #50011
+50012,Conference #50012
+50013,Conference #50013
+50014,Conference #50014
+50015,Conference #50015
+50016,Conference #50016
+50017,Conference #50017
+50018,Conference #50018
+50019,Conference #50019
+50020,Conference #50020
+50021,Conference #50021
+50022,Conference #50022
+50023,Conference #50023
+50024,Conference #50024
+50025,Conference #50025

@@ -1,0 +1,26 @@
+journalID,journalName
+60001,Journal #60001
+60002,Journal #60002
+60003,Journal #60003
+60004,Journal #60004
+60005,Journal #60005
+60006,Journal #60006
+60007,Journal #60007
+60008,Journal #60008
+60009,Journal #60009
+60010,Journal #60010
+60011,Journal #60011
+60012,Journal #60012
+60013,Journal #60013
+60014,Journal #60014
+60015,Journal #60015
+60016,Journal #60016
+60017,Journal #60017
+60018,Journal #60018
+60019,Journal #60019
+60020,Journal #60020
+60021,Journal #60021
+60022,Journal #60022
+60023,Journal #60023
+60024,Journal #60024
+60025,Journal #60025
