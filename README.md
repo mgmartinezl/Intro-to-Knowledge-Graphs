@@ -1,2 +1,2 @@
-# SDM_Lab3
-Knowledge Graphs
+# Semantic Data Management
+## Knowledge Graphs
